@@ -18,9 +18,9 @@ public class ImageTask:Object{
     
 }
 
-class RealmDB:RealmTransactionsRepresentable {
+class RealmDB: RealmTransactionsRepresentable{
     
-    var realm : Realm
+    private var realm : Realm
     
     init(){
         self.realm = try! Realm()

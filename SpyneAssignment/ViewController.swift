@@ -24,7 +24,7 @@ class TabBarViewController: UITabBarController{
         super.viewDidLoad()
         
         let firstVC = CameraViewController()
-        let secondVC = DownloadsViewController()
+        let secondVC = DownloadsViewController(viewModel: DownloadsViewModel(file: FilesManager(), db: RealmDB()))
         
         firstVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
         secondVC.tabBarItem = UITabBarItem(title: "Progress", image: UIImage(systemName: "star"), tag: 0)

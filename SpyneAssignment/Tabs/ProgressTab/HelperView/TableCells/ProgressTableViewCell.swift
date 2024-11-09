@@ -21,8 +21,8 @@ class ProgressTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        thumbnailName.textColor = .white
-        thumbnailDate.textColor = .white
+        thumbnailName.textColor = .black
+        thumbnailDate.textColor = .black
         
     }
 

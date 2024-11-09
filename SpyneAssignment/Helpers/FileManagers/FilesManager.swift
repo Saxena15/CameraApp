@@ -12,8 +12,10 @@ import UIKit
 
 
 class FilesManager{
-    private let imageManager = PHImageManager.default()
     private let targetSize = CGSize(width: 100, height: 100)
+    var spyneAssets: [MetaAsset] = []
+    let imageManager = PHCachingImageManager()
+    
     var isPhotoLibraryReadWriteAccessGranted: Bool {
         get async {
             let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
@@ -31,7 +33,6 @@ class FilesManager{
         }
     }
     
-    var spyneAssets: [CustomSpyneAsset] = []
     func save(_ photo: AVCapturePhoto ,_ timeStamp: String) async {
         // Confirm the user granted read/write access.
         guard await isPhotoLibraryReadWriteAccessGranted else { return }
@@ -54,41 +55,31 @@ class FilesManager{
         }
     }
     
-    func requestAllPhotos(onComplete : @escaping(([CustomSpyneAsset]) -> Void)){
+    func requestAllPhotos(onComplete : @escaping(([MetaAsset]) -> Void)){
         PHPhotoLibrary.requestAuthorization{status in
             switch status{
             case .authorized, .limited:
-                let fetchOptions = PHFetchOptions()
-                let allPhotos = PHAsset.fetchAssets(with: .image, options: fetchOptions)
-                for i in 0..<allPhotos.count{
-                    var asset =  allPhotos[i]
-                        
+                
+                let assets = self.fetchPhotos()
+                assets.forEach { asset in
                     guard let fileName = self.getAssetFileName(asset: asset) else { return }
                     
-                    if fileName.contains("spyne"){
-                        
-                        self.imageManager.requestImage(for: asset, targetSize: self.targetSize, contentMode: .aspectFill, options: nil){image, _ in
-                            
-                            guard let img = image else {
-                                return
-                            }
-                            
-                            let spyneAsset = CustomSpyneAsset(image: img, name: fileName)
-                            
+                    if fileName.lowercased().contains("spyne"){
+                        self.fetchThumbnails(for: asset, targetSize: self.targetSize) { img in
+                            guard let img = img else {return}
+                            self.spyneAssets.append(MetaAsset(image: img, name: fileName))
+                            onComplete(self.spyneAssets)
                         }
-                        
-                       
                     }
+                  
                 }
-                
-                onComplete(self.spyneAssets)
                 
             case .denied, .notDetermined, .restricted:
                 print("Not allowed")
                 
             default:
                 print("unknown")
-
+                
             }
         }
     }
@@ -98,9 +89,44 @@ class FilesManager{
         return resources.first?.originalFilename
     }
     
-}
-
-struct CustomSpyneAsset{
-    var image: UIImage
-    var name: String
+    private func fetchPhotos() -> [PHAsset]{
+        var assets: [PHAsset] = []
+        
+        // Create a fetch options object to specify how assets should be fetched
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        
+        // Optionally, you can limit the number of results for faster loading
+        fetchOptions.fetchLimit = 100 // Fetch only the 100 most recent photos
+        
+        // Fetch assets
+        let fetchedAssets = PHAsset.fetchAssets(with: .image, options: fetchOptions)
+        
+        // Iterate over the fetched assets and add them to the array
+        fetchedAssets.enumerateObjects { (asset, _, _) in
+            assets.append(asset)
+        }
+        
+        return assets
+    }
+    
+    private func fetchThumbnails(for asset: PHAsset, targetSize: CGSize, completion: @escaping (UIImage?) -> Void){
+        let options = PHImageRequestOptions()
+        options.isSynchronous = false
+        options.deliveryMode = .fastFormat
+        PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFill, options: options) { (image, _) in
+            completion(image)
+        }
+    }
+    
+    //    func updateCacheAssets(for collectionView: UICollectionView){
+    //
+    //            imageManager.startCachingImages(for: assetsToCache,
+    //                                            targetSize: CGSize(width: 100, height: 100),
+    //                                            contentMode: .aspectFill,
+    //                                            options: nil)
+    //
+    //        imageManager.
+    //    }
+    
 }
