@@ -8,13 +8,13 @@
 import UIKit
 import Photos
 
-class DownloadsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class DownloadsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     var db : RealmDB
     var viewModel: DownloadsViewModel
-
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     init(db: RealmDB, viewModel: DownloadsViewModel) {
         self.db = db
@@ -35,19 +35,7 @@ class DownloadsViewController: UIViewController, UITableViewDelegate, UITableVie
         
         self.registerNib()
         self.setupActivityIndicator()
-        DispatchQueue.main.async {
-            self.viewModel.getTableData(self.viewModel.db.fetchAllDataRealm()) {
-                print("data fetched")
-                self.activityIndicator.stopAnimating()
-                self.activityIndicator.hidesWhenStopped = true
-                self.tableView.reloadData()
-            }
-        }
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.tableView.reloadData()
+        self.prepareBasicDataAndFetch()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -58,7 +46,7 @@ class DownloadsViewController: UIViewController, UITableViewDelegate, UITableVie
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProgressTableViewCell", for: indexPath) as! ProgressTableViewCell
         
-        cell.cloudSavedImg.image = viewModel.tableData[indexPath.row].isUploaded ? UIImage(systemName: "custom.checkmark.circle.fill") : UIImage(systemName: "arrow.2.circlepath")
+        cell.cloudSavedImg.image = viewModel.tableData[indexPath.row].isUploaded ? UIImage(systemName: ImageNames.checkImg) : UIImage(systemName: ImageNames.syncImg)
         cell.thumbnailImg.image = viewModel.tableData[indexPath.row].image
         cell.thumbnailName.text = viewModel.tableData[indexPath.row].imageName
         cell.thumbnailDate.text = viewModel.convertDate(viewModel.tableData[indexPath.row].dateAdded)
@@ -72,6 +60,9 @@ class DownloadsViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        if let cell:ProgressTableViewCell = tableView.cellForRow(at: indexPath) as? ProgressTableViewCell{
+            db.updateDataRealm(cell.thumbnailName.text ?? "")
+        }
     }
     
     func registerNib(){
@@ -87,4 +78,21 @@ class DownloadsViewController: UIViewController, UITableViewDelegate, UITableVie
         activityIndicator.startAnimating()
     }
     
+    func refreshData() {
+        self.prepareBasicDataAndFetch()
+        self.tableView.reloadData()
+    }
+    
+    private func prepareBasicDataAndFetch(){
+        
+        let realmData = self.viewModel.db.fetchAllDataRealm()
+        
+        DispatchQueue.main.async {
+            self.viewModel.getTableData(realmData) {
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.hidesWhenStopped = true
+                self.tableView.reloadData()
+            }
+        }
+    }
 }

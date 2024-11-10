@@ -7,35 +7,8 @@
 
 import UIKit
 import AVFoundation
-
-class HomeViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-      
-        
-    }
-    override func viewDidAppear(_ animated: Bool) {
-//        let camerVC = CameraViewController()
-//        self.present(camerVC, animated: true, completion: nil)
-        
-    }
-    
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
-}
 import Photos
+
 class CameraViewController: UIViewController {
     var captureSession: AVCaptureSession?
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
@@ -64,6 +37,7 @@ class CameraViewController: UIViewController {
           captureButton.layer.cornerRadius = 35
           captureButton.addTarget(self, action: #selector(capturePhoto), for: .touchUpInside)
           view.addSubview(captureButton)
+        
     }
     
     private func setupCamera() {
@@ -99,7 +73,10 @@ class CameraViewController: UIViewController {
         }
         
         // Start the capture session
-        captureSession.startRunning()
+        DispatchQueue.main.async {
+            captureSession.startRunning()
+        }
+       
     }
     
     // Capture Photo Button Action
@@ -113,6 +90,13 @@ class CameraViewController: UIViewController {
             let settings = AVCapturePhotoSettings()
             photoOutput.capturePhoto(with: settings, delegate: self)
         }
+    }
+    
+    private func showAlert(){
+        let alert = UIAlertController(title: String.photoCapture, message: "", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: String.okay, style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true)
+        
     }
 }
 
@@ -130,8 +114,7 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
             return
         }
         
-        print("Photo captured: \(image)")
-        
+        self.showAlert()
         
         let timeStamp = Date().timeIntervalSince1970
         

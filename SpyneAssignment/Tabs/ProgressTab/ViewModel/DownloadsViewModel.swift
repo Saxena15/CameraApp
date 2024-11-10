@@ -11,7 +11,7 @@ import UIKit
 import RealmSwift
 
 
-class DownloadsViewModel: ObservableObject, DownloadRepresentable{
+class DownloadsViewModel: ObservableObject, DownloaderViewRepresentable{
     
     @Published var tableData: [CustomSpyneAsset]
     var file : FilesManager

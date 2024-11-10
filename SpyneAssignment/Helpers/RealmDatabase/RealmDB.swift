@@ -29,7 +29,7 @@ class RealmDB: RealmTransactionsRepresentable{
     // Saving fresh data
     func saveDataRealm(_ imageTask : ImageTask){
         try! realm.write {
-            print("Data initialised in Realm")
+            print("Data added to Realm")
             realm.add(imageTask)
         }
     }
@@ -57,7 +57,7 @@ class RealmDB: RealmTransactionsRepresentable{
     
     //deleting data
     func deleteDataRealm(_ imageTask: ImageTask){
-        print("Data Deleted from Realm")
+        print("Data deleted from Realm")
         realm.delete(imageTask)
     }
     

@@ -7,24 +7,13 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
-        
-    }
-    
-    
-}
-
 class TabBarViewController: UITabBarController{
+    let realmDB = RealmDB()
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let firstVC = CameraViewController(db: RealmDB(), file: FilesManager())
-        let secondVC = DownloadsViewController(db: RealmDB(), viewModel: DownloadsViewModel(file: FilesManager(), db: RealmDB()))
+        let firstVC = CameraViewController(db: realmDB, file: FilesManager())
+        let secondVC = DownloadsViewController(db: realmDB, viewModel: DownloadsViewModel(file: FilesManager(), db: RealmDB()))
         
         firstVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), tag: 0)
         secondVC.tabBarItem = UITabBarItem(title: "Progress", image: UIImage(systemName: "star.fill"), tag: 0)
