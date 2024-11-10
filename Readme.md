@@ -90,11 +90,17 @@ Ensure to add this key in `Info.plist`:
 ```xml
 <key>NSCameraUsageDescription</key>
 <string>This app requires camera access to capture images.</string>
+
+<key>NSPhotoLibraryUsageDescription</key>
+<string>App needs access to photos</string>
+
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>App needs access to photos</string>
 ```
 
 ## Demo
 
-Screenshots or a video of the app in action (add if applicable).
+[App Demo.](https://drive.google.com/file/d/1xWC4dNn0OGsCOqRoq7tp6di_vrME9Mvd/view?usp=sharing)
 
 ## Future Improvements
 
