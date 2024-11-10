@@ -110,6 +110,6 @@ Ensure to add this key in `Info.plist`:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Not available
 
 ---
