@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DownloadsViewController" customModule="SpyneAssignment" customModuleProvider="target">
             <connections>
+                <outlet property="activityIndicator" destination="ye1-1i-Ddn" id="6ck-v3-4Y0"/>
                 <outlet property="tableView" destination="jcz-pb-mdE" id="dMJ-0u-jM6"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -20,18 +21,29 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="jcz-pb-mdE">
-                    <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                    <rect key="frame" x="0.0" y="59" width="413" height="759"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="ye1-1i-Ddn">
+                    <rect key="frame" x="186" y="416" width="40" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="KGR-iQ-6yS"/>
+                        <constraint firstAttribute="height" constant="40" id="RWQ-HU-j2m"/>
+                    </constraints>
+                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ye1-1i-Ddn" secondAttribute="trailing" constant="187" id="DrH-M1-Pgc"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="jcz-pb-mdE" secondAttribute="trailing" id="Lqb-Gs-XGf"/>
                 <constraint firstItem="jcz-pb-mdE" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Vcn-8i-Cha"/>
+                <constraint firstItem="ye1-1i-Ddn" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="186" id="YpH-24-ubk"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="jcz-pb-mdE" secondAttribute="bottom" id="b03-bk-R5x"/>
                 <constraint firstItem="jcz-pb-mdE" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="fMa-qc-kLS"/>
+                <constraint firstItem="ye1-1i-Ddn" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="357" id="fcR-xn-grA"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="ye1-1i-Ddn" secondAttribute="bottom" constant="382" id="sOn-7e-4po"/>
             </constraints>
             <point key="canvasLocation" x="114" y="20"/>
         </view>

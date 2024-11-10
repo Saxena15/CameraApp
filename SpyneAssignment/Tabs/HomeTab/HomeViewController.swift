@@ -39,8 +39,19 @@ import Photos
 class CameraViewController: UIViewController {
     var captureSession: AVCaptureSession?
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
-    var db = RealmDB()
-    let file = FilesManager()
+    var db:  RealmDB
+    let file : FilesManager
+    
+    init(db: RealmDB, file: FilesManager) {
+       
+        self.db = db
+        self.file = file
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

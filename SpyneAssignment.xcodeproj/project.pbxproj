@@ -28,6 +28,7 @@
 		654661A32CDF47560023D0D9 /* CustomSpyneAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654661A22CDF47560023D0D9 /* CustomSpyneAsset.swift */; };
 		654661A52CDF48B00023D0D9 /* MetaAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654661A42CDF48B00023D0D9 /* MetaAssets.swift */; };
 		654661A72CDFEA830023D0D9 /* DownloadRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654661A62CDFEA830023D0D9 /* DownloadRepresentable.swift */; };
+		654661A92CE07BD60023D0D9 /* FileUploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654661A82CE07BD60023D0D9 /* FileUploadManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -66,6 +67,7 @@
 		654661A22CDF47560023D0D9 /* CustomSpyneAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSpyneAsset.swift; sourceTree = "<group>"; };
 		654661A42CDF48B00023D0D9 /* MetaAssets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaAssets.swift; sourceTree = "<group>"; };
 		654661A62CDFEA830023D0D9 /* DownloadRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadRepresentable.swift; sourceTree = "<group>"; };
+		654661A82CE07BD60023D0D9 /* FileUploadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUploadManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,7 @@
 				654661632CDE05620023D0D9 /* Assets.xcassets */,
 				654661652CDE05620023D0D9 /* LaunchScreen.storyboard */,
 				654661682CDE05620023D0D9 /* Info.plist */,
+				654661A82CE07BD60023D0D9 /* FileUploadManager.swift */,
 			);
 			path = SpyneAssignment;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				6546618F2CDE59520023D0D9 /* ProgressTableViewCell.swift in Sources */,
 				654661A52CDF48B00023D0D9 /* MetaAssets.swift in Sources */,
 				6546615F2CDE05610023D0D9 /* ViewController.swift in Sources */,
+				654661A92CE07BD60023D0D9 /* FileUploadManager.swift in Sources */,
 				6546615B2CDE05610023D0D9 /* AppDelegate.swift in Sources */,
 				6546615D2CDE05610023D0D9 /* SceneDelegate.swift in Sources */,
 				654661A32CDF47560023D0D9 /* CustomSpyneAsset.swift in Sources */,

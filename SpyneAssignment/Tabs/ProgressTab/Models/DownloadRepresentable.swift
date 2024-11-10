@@ -10,5 +10,5 @@ import RealmSwift
 
 public protocol DownloadRepresentable{
     func convertDate(_ ts: String) -> String
-    func getTableData(_ dbData: Results<ImageTask>, completion: ((Bool) -> Void))
+    func getTableData(_ dbData: Results<ImageTask>, completion: @escaping(() -> Void))
 }

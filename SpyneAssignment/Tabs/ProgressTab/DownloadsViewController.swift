@@ -11,10 +11,13 @@ import Photos
 class DownloadsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
-    var db = RealmDB()
+    var db : RealmDB
     var viewModel: DownloadsViewModel
+
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    init(viewModel: DownloadsViewModel) {
+    init(db: RealmDB, viewModel: DownloadsViewModel) {
+        self.db = db
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -31,11 +34,13 @@ class DownloadsViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.backgroundColor = .white
         
         self.registerNib()
-        
-        self.viewModel.getTableData(self.viewModel.db.fetchAllDataRealm()) { val in
-            if val{
+        self.setupActivityIndicator()
+        DispatchQueue.main.async {
+            self.viewModel.getTableData(self.viewModel.db.fetchAllDataRealm()) {
+                print("data fetched")
+                self.activityIndicator.stopAnimating()
+                self.activityIndicator.hidesWhenStopped = true
                 self.tableView.reloadData()
-                self.tableView.tableHeaderView?.isHidden = true
             }
         }
         
@@ -56,7 +61,7 @@ class DownloadsViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.cloudSavedImg.image = viewModel.tableData[indexPath.row].isUploaded ? UIImage(systemName: "custom.checkmark.circle.fill") : UIImage(systemName: "arrow.2.circlepath")
         cell.thumbnailImg.image = viewModel.tableData[indexPath.row].image
         cell.thumbnailName.text = viewModel.tableData[indexPath.row].imageName
-        cell.thumbnailDate.text = viewModel.tableData[indexPath.row].dateAdded
+        cell.thumbnailDate.text = viewModel.convertDate(viewModel.tableData[indexPath.row].dateAdded)
         
         return cell
     }
@@ -69,23 +74,17 @@ class DownloadsViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let spinner = UIActivityIndicatorView(style: .gray)
-        spinner.startAnimating()
-        spinner.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: tableView.bounds.width, height: CGFloat(44))
-        
-        self.tableView.tableHeaderView = spinner
-       
-        self.tableView.tableHeaderView?.isHidden = false
-    }
-    
-    func tableView(_ tableView: UITableView, shouldSpringLoadRowAt indexPath: IndexPath, with context: any UISpringLoadedInteractionContext) -> Bool {
-        return true
-    }
-    
     func registerNib(){
         let nib = UINib(nibName: "ProgressTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: "ProgressTableViewCell")
+    }
+    
+    func setupActivityIndicator(){
+        activityIndicator.style = .large
+        activityIndicator.layer.cornerRadius = 12
+        activityIndicator.backgroundColor = .gray
+        activityIndicator.layer.opacity = 0.8
+        activityIndicator.startAnimating()
     }
     
 }

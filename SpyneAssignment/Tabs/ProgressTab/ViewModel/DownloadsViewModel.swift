@@ -41,16 +41,22 @@ class DownloadsViewModel: ObservableObject, DownloadRepresentable{
     }
     
     
-    
-    func getTableData(_ dbData: Results<ImageTask>, completion: ((Bool) -> Void)){
+    func getTableData(_ dbData: Results<ImageTask>, completion: @escaping(() -> Void)){
         
         let _ = file.requestAllPhotos { metaData in
             for asset in metaData {
                 if let data = dbData.first(where: { asset.name.contains($0.captureDate )}){
-                    self.tableData.append(CustomSpyneAsset(imageName: data.imageName, image: asset.image, dateAdded: data.captureDate, isUploaded: data.uploadStatus))
+                    
+                    let customSpyneAsset = CustomSpyneAsset(imageName: data.imageName, image: asset.image, dateAdded: data.captureDate, isUploaded: data.uploadStatus)
+                    
+                    if !self.tableData.contains(where: {$0.imageName == customSpyneAsset.imageName}){
+                        self.tableData.append(CustomSpyneAsset(imageName: data.imageName, image: asset.image, dateAdded: data.captureDate, isUploaded: data.uploadStatus))
+                    }
+                }
+                if self.tableData.count == metaData.count{
+                    completion()
                 }
             }
-        }
-        completion(true)
+        }      
     }
 }
